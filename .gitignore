@@ -5,6 +5,10 @@ target/
 !**/src/test/**/target/
 test/
 
+# h2 database file
+data-creator.mv.db
+data-creator.trace.db
+
 ### STS ###
 .apt_generated
 .classpath
