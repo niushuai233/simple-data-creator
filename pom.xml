@@ -110,10 +110,17 @@
             <artifactId>mybatis-flex-processor</artifactId>
         </dependency>
 
+        <!--h2数据库作为自身数据库-->
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <scope>runtime</scope>
+        </dependency>
+
+        <!--liquibase-->
+        <dependency>
+            <groupId>org.liquibase</groupId>
+            <artifactId>liquibase-core</artifactId>
         </dependency>
 
         <!--hutool工具类-->
@@ -123,6 +130,7 @@
             <version>${hutool.version}</version>
         </dependency>
 
+        <!--lombok-->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>

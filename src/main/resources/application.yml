@@ -19,6 +19,7 @@ spring:
       settings:
         web-allow-others: true
 
+
   freemarker:
     # 启用 freemarker 模板
     enabled: true
@@ -56,6 +57,13 @@ spring:
       template_update_delay: 0
       # 默认编码
       default_encoding: utf-8
+  liquibase:
+    enabled: true
+    change-log: classpath:/db/liquibase/db.changelog-master.yaml
+    parameters:
+      generalStr: varchar(50)
+      longerStr: varchar(100)
+      textStr: varchar(255)
 
 logging:
   level:
