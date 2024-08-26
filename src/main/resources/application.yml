@@ -8,9 +8,9 @@ spring:
     name: data-creator
   datasource:
     driver-class-name: org.h2.Driver
+    url: jdbc:h2:file:./${spring.application.name};TIME ZONE=CTT
     username: sa
     password: sa
-    url: jdbc:h2:file:./${spring.application.name};TIME ZONE='CTT'
 
   h2:
     console:
@@ -59,6 +59,10 @@ spring:
       default_encoding: utf-8
   liquibase:
     enabled: true
+    driver-class-name: ${spring.datasource.driver-class-name}
+    url: ${spring.datasource.url}
+    user: ${spring.datasource.username}
+    password: ${spring.datasource.password}
     change-log: classpath:/db/liquibase/db.changelog-master.yaml
     parameters:
       generalStr: varchar(50)

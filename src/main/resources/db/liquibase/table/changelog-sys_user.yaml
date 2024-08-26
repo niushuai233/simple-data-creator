@@ -17,90 +17,99 @@ databaseChangeLog:
       # 具体细则 liquibase.change.Change 的子类
       changes:
         # 建表规则
-        - createTable:
+        createTable:
           tableName: sys_user
           columns:
-            - name: id
-              type: bigint
-              constraints:
-                # 标识主键
-                primaryKey: true
-              autoIncrement: true
-              remarks: '主键id'
-            - name: username
-              type: ${generalStr}
-              constraints:
-                # 不允许为空
-                nullable: false
-              remarks: '用户名'
-            - name: password
-              type: ${generalStr}
-              constraints:
-                # 不允许为空
-                nullable: false
-              remarks: '密码'
-            - name: status
-              type: int
-              constraints:
-                # 不允许为空
-                nullable: false
-              # 默认值
-              defaultValue: 1
-              # 备注
-              remarks: '状态 默认(1正常,2冻结,3禁用,4封禁)'
-            - name: deleted
-              type: int
-              constraints:
-                nullable: false
-              # 默认值
-              defaultValue: 0
-              # 备注
-              remarks: '删除标识 0未删除 1删除'
-            - name: create_by
-              type: ${generalStr}
-              constraints:
-                nullable: false
-              # 备注
-              remarks: '创建人'
-            - name: create_time
-              type: timestamp
-              constraints:
-                nullable: false
-              defaultValue: 'now()'
-              # 备注
-              remarks: '创建时间'
-            - name: update_by
-              type: ${generalStr}
-              # 备注
-              remarks: '更新人'
-            - name: update_time
-              type: timestamp
-              # 备注
-              remarks: '更新时间'
-        - insert:
-            tableName: sys_user
-            columns:
-              - column:
-                  name: id
-                  value: 0
-              - column:
-                  name: username
-                  value: admin
-              - column:
-                  name: password
-                  value: admin
-              - column:
-                  name: status
-                  value: 1
-              - column:
-                  name: deleted
-                  value: 0
-              - column:
-                  name: create_by
-                  value: admin
-              - column:
-                  name: create_time
-                  value: now()
+            - column:
+                name: id
+                type: bigint
+                constraints:
+                  # 标识主键
+                  primaryKey: true
+                autoIncrement: true
+                remarks: '主键id'
+            - column:
+                name: username
+                type: ${generalStr}
+                constraints:
+                  # 不允许为空
+                  nullable: false
+                remarks: '用户名'
+            - column:
+                name: password
+                type: ${generalStr}
+                constraints:
+                  # 不允许为空
+                  nullable: false
+                remarks: '密码'
+            - column:
+                name: status
+                type: int
+                constraints:
+                  # 不允许为空
+                  nullable: false
+                # 默认值
+                defaultValue: 1
+                # 备注
+                remarks: '状态 默认(1正常,2冻结,3禁用,4封禁)'
+            - column:
+                name: deleted
+                type: int
+                constraints:
+                  nullable: false
+                # 默认值
+                defaultValue: 0
+                # 备注
+                remarks: '删除标识 0未删除 1删除'
+            - column:
+                name: create_by
+                type: ${generalStr}
+                constraints:
+                  nullable: false
+                # 备注
+                remarks: '创建人'
+            - column:
+                name: create_time
+                type: timestamp
+                constraints:
+                  nullable: false
+                defaultValue: 'now()'
+                # 备注
+                remarks: '创建时间'
+            - column:
+                name: update_by
+                type: ${generalStr}
+                # 备注
+                remarks: '更新人'
+            - column:
+                name: update_time
+                type: timestamp
+                # 备注
+                remarks: '更新时间'
+        insert:
+          tableName: sys_user
+          columns:
+            - column:
+                name: id
+                value: 0
+            - column:
+                name: username
+                value: admin
+            - column:
+                name: password
+                value: admin
+            - column:
+                name: status
+                value: 1
+            - column:
+                name: deleted
+                value: 0
+            - column:
+                name: create_by
+                value: admin
+            - column:
+                name: create_time
+                value: now()
 
 
 
