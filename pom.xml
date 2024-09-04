@@ -56,6 +56,9 @@
         <mybatis-flex.version>1.9.7</mybatis-flex.version>
 
         <hutool.version>5.8.31</hutool.version>
+
+        <!--maven相关插件版本-->
+        <plugin.git-commit-id.version>4.9.10</plugin.git-commit-id.version>
     </properties>
 
     <dependencyManagement>
@@ -145,7 +148,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <scope>annotationProcessor</scope>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 
@@ -175,7 +178,47 @@
     </pluginRepositories>
 
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.xml</include>
+                    <include>**/*.yml</include>
+                    <include>**/*.properties</include>
+                </includes>
+            </resource>
+        </resources>
         <plugins>
+            <!--生成git提交信息插件-->
+            <plugin>
+                <groupId>pl.project13.maven</groupId>
+                <artifactId>git-commit-id-plugin</artifactId>
+                <version>${plugin.git-commit-id.version}</version>
+                <executions>
+                    <execution>
+                        <id>get-the-git-infos</id>
+                        <goals>
+                            <goal>revision</goal>
+                        </goals>
+                        <phase>initialize</phase>
+                    </execution>
+                </executions>
+                <configuration>
+                    <verbose>false</verbose>
+                    <dotGitDirectory>${project.basedir}/.git</dotGitDirectory>
+                    <prefix>git</prefix>
+                    <dateFormat>yyyy-MM-dd HH:mm:ss</dateFormat>
+                    <dateFormatTimeZone>${user.timezone}</dateFormatTimeZone>
+                    <generateGitPropertiesFile>true</generateGitPropertiesFile>
+                    <generateGitPropertiesFilename>${project.build.outputDirectory}/git.properties
+                    </generateGitPropertiesFilename>
+                    <commitIdGenerationMode>full</commitIdGenerationMode>
+                    <format>properties</format>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
