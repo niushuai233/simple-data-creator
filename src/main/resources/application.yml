@@ -69,6 +69,9 @@ spring:
       longerStr: varchar(100)
       textStr: varchar(255)
 
+mybatis-flex:
+  mapper-locations: classpath*:cc/niushuai/**/mapper/xml/*Mapper.xml
+
 logging:
   level:
     root: info

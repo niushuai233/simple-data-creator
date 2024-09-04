@@ -57,7 +57,7 @@ public class BizException extends RuntimeException {
 
     public BizException(Integer code, String message, Object... params) {
         this.code = code;
-        this.message = StrUtil.format(message, params);;
+        this.message = StrUtil.format(message, params);
     }
 
     public static BizException newInstance(ErrorCodeEnum errorCodeEnum, Object... params) {

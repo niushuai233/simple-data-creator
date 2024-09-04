@@ -48,6 +48,54 @@ public class R<T> implements Serializable {
         this.message = message;
     }
 
+    public static R success() {
+        return new R(20000, "success");
+    }
+
+    public static R success(String message) {
+        return new R(20000, message);
+    }
+
+    public static <T> R success(T data) {
+        return new R<T>(20000, data, "success");
+    }
+
+    public static R success(Integer code, String message) {
+        return new R(code, message);
+    }
+
+    public static R error() {
+        return new R(50000, "error");
+    }
+
+    public static R error(String message) {
+        return new R(50000, message);
+    }
+
+    public static <T> R error(T data) {
+        return new R<T>(50000, data, "error");
+    }
+
+    public static R error(ErrorCodeEnum errorCodeEnum) {
+        return error(errorCodeEnum, "");
+    }
+
+    public static R error(ErrorCodeEnum errorCodeEnum, String extraMessage) {
+        String msg = errorCodeEnum.getMessage();
+        if (StrUtil.isNotEmpty(extraMessage)) {
+            msg = msg + ": " + extraMessage;
+        }
+        return error(errorCodeEnum.getCode(), msg);
+    }
+
+    public static R error(BizException bizException) {
+        return error(bizException.getCode(), bizException.getMessage());
+    }
+
+    public static R error(Integer code, String message) {
+        return new R(code, message);
+    }
+
     public Integer getCode() {
         return code;
     }
@@ -70,55 +118,5 @@ public class R<T> implements Serializable {
 
     public void setMessage(String message) {
         this.message = message;
-    }
-
-    public static R success() {
-        return new R(20000, "success");
-    }
-
-    public static R success(String message) {
-        return new R(20000, message);
-    }
-
-    public static <T> R success(T data) {
-        return new R(20000, data, "success");
-    }
-
-    public static R success(Integer code, String message) {
-        return new R(code, message);
-    }
-
-    public static R error() {
-        return new R(50000, "error");
-    }
-
-    public static R error(String message) {
-        return new R(50000, message);
-    }
-
-    public static <T> R error(T data) {
-        return new R(50000, data, "error");
-    }
-
-    public static R error(ErrorCodeEnum errorCodeEnum) {
-        return error(errorCodeEnum, "");
-    }
-
-    public static R error(ErrorCodeEnum errorCodeEnum, String extraMessage) {
-        String msg = errorCodeEnum.getMessage();
-        if (StrUtil.isNotEmpty(extraMessage)) {
-            msg = msg + ": " + extraMessage;
-        }
-        return error(errorCodeEnum.getCode(), msg);
-    }
-
-
-    public static R error(BizException bizException) {
-        return error(bizException.getCode(), bizException.getMessage());
-    }
-
-
-    public static R error(Integer code, String message) {
-        return new R(code, message);
     }
 }
