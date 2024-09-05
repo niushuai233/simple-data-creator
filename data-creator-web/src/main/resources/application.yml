@@ -4,6 +4,11 @@ server:
     context-path: /
 
 spring:
+  main:
+    # 是否允许bean定义被覆盖
+    allow-bean-definition-overriding: true
+    # 是否允许循环依赖
+    allow-circular-references: false
   application:
     name: data-creator
   datasource:
