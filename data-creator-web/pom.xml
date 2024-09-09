@@ -88,6 +88,12 @@
             <artifactId>hutool-all</artifactId>
         </dependency>
 
+        <!--thread local-->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>transmittable-thread-local</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>

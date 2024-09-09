@@ -26,9 +26,9 @@ package cc.niushuai.datacreator.common.enums;
 public enum ErrorCodeEnum {
 
     /**
-     * 请求方式不匹配
+     * 登陆失效
      */
-    InterServerException(50000, "未知异常: {}"),
+    NotLogin(40001, "登录已失效, 请重新登陆"),
 
     /**
      * 请求方式不匹配
@@ -36,36 +36,45 @@ public enum ErrorCodeEnum {
     HttpMethodNotAllowed(40005, "请求方式不匹配"),
 
     /**
+     * 未授权操作
+     */
+    TokenUnauthorized(41001, "未授权操作: {}"),
+
+    /**
+     * 请求方式不匹配
+     */
+    InterServerException(50000, "未知异常: {}"),
+
+
+    /**
      * 必填参数缺失
      */
-    RequestParameterError(13001, "必填参数缺失"),
+    RequestParameterError(53001, "必填参数缺失"),
 
     /**
      * 非法参数
      */
-    IllegalArgument(13000, "非法参数"),
+    IllegalArgument(53000, "非法参数"),
+
 
     /**
-     * 数据库操作失败
+     * ttl上下文处理异常
      */
-    SqlException(14000, "数据库操作失败"),
-
-    /**
-     * 登陆失效
-     */
-    NotLogin(40001, "登录已失效, 请重新登陆"),
-
-    /**
-     * 未授权操作
-     */
-    TokenUnauthorized(15001, "未授权操作: {}"),
+    TTL_CONTENT_NOT_FOUND(53010, "TTL上下文异常: {}"),
 
     /**
      * 未知satoken异常
      */
-    TokenUnknownEx(15002, "未知ST异常: {}"),
+    TokenUnknownEx(53020, "未知ST异常: {}"),
 
-    DEFAULT(99999, "default");
+    /**
+     * 数据库操作失败
+     */
+    SqlException(55000, "数据库操作失败"),
+
+
+    DEFAULT(99999, "default"),
+    ;
 
     private Integer code;
     private String message;
