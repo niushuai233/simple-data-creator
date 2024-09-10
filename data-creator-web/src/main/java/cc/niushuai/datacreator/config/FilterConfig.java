@@ -17,6 +17,7 @@
 package cc.niushuai.datacreator.config;
 
 import cc.niushuai.datacreator.config.filter.BodyRepeatableReadFilter;
+import cc.niushuai.datacreator.config.filter.TraceToMDCFilter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,6 +31,20 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 public class FilterConfig {
+
+
+    /**
+     * 注册TraceToMDCFilter过滤器
+     */
+    @Bean
+    public FilterRegistrationBean<TraceToMDCFilter> traceToMDCFilter() {
+        FilterRegistrationBean<TraceToMDCFilter> registration = new FilterRegistrationBean<>();
+        registration.setName(TraceToMDCFilter.class.getSimpleName());
+        registration.setFilter(new TraceToMDCFilter());
+        registration.addUrlPatterns("/*");
+        registration.setOrder(1);
+        return registration;
+    }
 
     /**
      * 注册BodyRepeatableReadFilter过滤器

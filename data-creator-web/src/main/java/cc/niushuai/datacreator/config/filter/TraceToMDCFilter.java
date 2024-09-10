@@ -16,30 +16,41 @@
 
 package cc.niushuai.datacreator.config.filter;
 
-import cc.niushuai.datacreator.config.filter.wrapper.BodyRepeatableReadRequestWrapper;
+import cc.niushuai.datacreator.common.util.Constants;
+import cn.hutool.core.util.RandomUtil;
 import jakarta.servlet.*;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.MDC;
 
 import java.io.IOException;
 
 /**
- * 注入filter 使body可重复读生效
+ * 通过filter往mdc中放入可追踪的traceId
  *
  * @author niushuai233
- * @date 2024/09/09 14:50
+ * @date 2024/09/10 11:43
  * @since 0.0.1
  */
 @Slf4j
-public class BodyRepeatableReadFilter implements Filter {
+public class TraceToMDCFilter implements Filter {
 
-    public BodyRepeatableReadFilter() {
-        log.info("add body repeatable read filter");
+    private static final String BASE_HEX_STRING = "0123456789abcdef";
+
+    public TraceToMDCFilter() {
+        log.info("add trace to MDC filter");
     }
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        BodyRepeatableReadRequestWrapper requestWrapper = new BodyRepeatableReadRequestWrapper((HttpServletRequest) request);
-        chain.doFilter(requestWrapper, response);
+        MDC.put(Constants.TRACE_ID, getTraceId());
+        try {
+            chain.doFilter(request, response);
+        } finally {
+            MDC.remove(Constants.TRACE_ID);
+        }
+    }
+
+    private String getTraceId() {
+        return RandomUtil.randomString(BASE_HEX_STRING, 16);
     }
 }
