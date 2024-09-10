@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="1 seconds" debug="false">
+    <!--转换规则-->
+    <conversionRule conversionWord="clr" class="org.springframework.boot.logging.logback.ColorConverter" />
+    <conversionRule conversionWord="wex" class="org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter" />
+    <conversionRule conversionWord="wEx" class="org.springframework.boot.logging.logback.ExtendedWhitespaceThrowableProxyConverter" />
+    <conversionRule conversionWord="CallerDetailConvert" class="cc.niushuai.datacreator.config.log.CallerDetailConvert" />
+
+    <!--spring属性-->
+    <springProperty scope="context" name="application.name" source="spring.application.name" defaultValue="runtime"/>
+    <springProperty scope="context" name="log.path" source="niushuai233.log.path" defaultValue="/niushuai233/logs/"/>
+    <!--默认编码-->
+    <property name="charsetEncoding" value="UTF-8"/>
+
+    <!--<statusListener class="ch.qos.logback.core.status.NopStatusListener" />-->
+
+    <!--控制台输出 带颜色控制符-->
+    <property name="consolePattern" value="%clr(%date{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(%5level){green} %clr(${PID:-}){magenta} %clr([${application.name},%X{traceId},%X{spanId}]){faint} [%15.15thread] %clr(%-65.65CallerDetailConvert{65}){cyan} - %msg%n%wEx"/>
+    <!--文件输出 不带颜色控制符-->
+    <property name="filePattern" value="%date{yyyy-MM-dd HH:mm:ss.SSS} %-5level ${PID:-} [${application.name},%X{traceId},%X{spanId}] [%15.15thread] [%-65.65CallerDetailConvert{65}] - %msg%n"/>
+
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>debug</level>
+        </filter>
+        <encoder>
+            <pattern>${consolePattern}</pattern>
+            <charset>${charsetEncoding}</charset>
+        </encoder>
+    </appender>
+
+    <!-- debug fileLog 输出到文件 -->
+    <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <append>true</append>
+        <encoder>
+            <pattern>${filePattern}</pattern>
+            <charset>${charsetEncoding}</charset>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <!-- 设置日志输出级别 -->
+            <level>debug</level>
+            <!--debug级别接收所有级别日志-->
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>ACCEPT</onMismatch>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>
+                ${log.path}/${application.name}/%d{yyyy/MM/dd}/${application.name}-%d{yyyyMMdd-HH,aux}.%i.log.gz
+            </fileNamePattern>
+            <!--日志归档 100M一个-->
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>100MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <!--启动时清理历史日志-->
+            <cleanHistoryOnStart>false</cleanHistoryOnStart>
+        </rollingPolicy>
+    </appender>
+
+    <root level="info">
+        <appender-ref ref="console" />
+        <appender-ref ref="file" />
+    </root>
+
+</configuration>
