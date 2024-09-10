@@ -18,6 +18,7 @@ package cc.niushuai.datacreator.base;
 
 import cc.niushuai.datacreator.common.enums.ErrorCodeEnum;
 import cc.niushuai.datacreator.common.exception.BizException;
+import cc.niushuai.datacreator.common.util.TtlContext;
 import cn.hutool.core.util.StrUtil;
 
 import java.io.Serializable;
@@ -30,12 +31,11 @@ import java.io.Serializable;
  * @since 0.0.1
  */
 public class R<T> implements Serializable {
-
     private static final long serialVersionUID = 3123225289302015397L;
-
     private Integer code;
     private T data;
     private String message;
+    private String traceId = TtlContext.nullableGetTraceId();
 
     public R(Integer code, String message) {
         this.code = code;
@@ -100,23 +100,15 @@ public class R<T> implements Serializable {
         return code;
     }
 
-    public void setCode(Integer code) {
-        this.code = code;
-    }
-
     public T getData() {
         return data;
-    }
-
-    public void setData(T data) {
-        this.data = data;
     }
 
     public String getMessage() {
         return message;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public String getTraceId() {
+        return traceId;
     }
 }

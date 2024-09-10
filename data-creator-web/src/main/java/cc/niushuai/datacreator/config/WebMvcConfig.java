@@ -82,12 +82,13 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        // add trace id
-        registry.addInterceptor(new AddTraceIdResponseInterceptor())
-                .addPathPatterns("/**");
 
         // parse context
         registry.addInterceptor(new TtlContextParserInterceptor())
+                .addPathPatterns("/**");
+
+        // add trace id
+        registry.addInterceptor(new AddTraceIdResponseInterceptor())
                 .addPathPatterns("/**");
     }
 
