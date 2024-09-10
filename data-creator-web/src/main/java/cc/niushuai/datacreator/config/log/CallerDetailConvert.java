@@ -60,10 +60,8 @@ public class CallerDetailConvert extends LoggerConverter {
     private static final int MIN_SAMPLE_SIZE = 1024;
 
     private static final double NEGATIVE = -1;
-    private volatile boolean cacheEnabled = true;
-
     private final CallerDetailConvert.NameCache cache = new CallerDetailConvert.NameCache(INITIAL_CACHE_SIZE);
-
+    private volatile boolean cacheEnabled = true;
     private Abbreviator abbreviator = null;
 
     private volatile int cacheMisses = 0;

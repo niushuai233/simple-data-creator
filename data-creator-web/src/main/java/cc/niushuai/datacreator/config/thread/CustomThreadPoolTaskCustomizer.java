@@ -16,7 +16,6 @@
 
 package cc.niushuai.datacreator.config.thread;
 
-import cn.hutool.core.util.StrUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.task.TaskExecutionProperties;

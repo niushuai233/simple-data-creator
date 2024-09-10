@@ -16,7 +16,6 @@
 
 package cc.niushuai.datacreator.config.thread;
 
-import cn.hutool.core.thread.ThreadUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.lang.Nullable;
@@ -29,9 +28,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * cv了spring的线程处理机制
- * @see org.springframework.scheduling.concurrent.CustomizableThreadFactory
+ *
  * @author niushuai233
  * @date 2024/09/05 11:44
+ * @see org.springframework.scheduling.concurrent.CustomizableThreadFactory
  * @since 0.0.1
  */
 public class CustomThread {
@@ -78,17 +78,12 @@ public class CustomThread {
     public static class Creator implements ThreadFactory, Serializable {
 
         private static final Logger log = LoggerFactory.getLogger(Creator.class);
-
+        private final AtomicInteger threadCount = new AtomicInteger();
         private String threadNamePrefix;
-
         private int threadPriority = Thread.NORM_PRIORITY;
-
         private boolean daemon = false;
-
         @Nullable
         private ThreadGroup threadGroup;
-
-        private final AtomicInteger threadCount = new AtomicInteger();
 
 
         /**
@@ -107,6 +102,13 @@ public class CustomThread {
             this.threadNamePrefix = (threadNamePrefix != null ? threadNamePrefix : getDefaultThreadNamePrefix());
         }
 
+        /**
+         * Return the thread name prefix to use for the names of newly
+         * created threads.
+         */
+        public String getThreadNamePrefix() {
+            return this.threadNamePrefix;
+        }
 
         /**
          * Specify the prefix to use for the names of newly created threads.
@@ -117,11 +119,10 @@ public class CustomThread {
         }
 
         /**
-         * Return the thread name prefix to use for the names of newly
-         * created threads.
+         * Return the priority of the threads that this factory creates.
          */
-        public String getThreadNamePrefix() {
-            return this.threadNamePrefix;
+        public int getThreadPriority() {
+            return this.threadPriority;
         }
 
         /**
@@ -135,10 +136,10 @@ public class CustomThread {
         }
 
         /**
-         * Return the priority of the threads that this factory creates.
+         * Return whether this factory should create daemon threads.
          */
-        public int getThreadPriority() {
-            return this.threadPriority;
+        public boolean isDaemon() {
+            return this.daemon;
         }
 
         /**
@@ -157,28 +158,12 @@ public class CustomThread {
         }
 
         /**
-         * Return whether this factory should create daemon threads.
-         */
-        public boolean isDaemon() {
-            return this.daemon;
-        }
-
-        /**
          * Specify the name of the thread group that threads should be created in.
          *
          * @see #setThreadGroup
          */
         public void setThreadGroupName(String name) {
             this.threadGroup = new ThreadGroup(name);
-        }
-
-        /**
-         * Specify the thread group that threads should be created in.
-         *
-         * @see #setThreadGroupName
-         */
-        public void setThreadGroup(@Nullable ThreadGroup threadGroup) {
-            this.threadGroup = threadGroup;
         }
 
         /**
@@ -190,6 +175,14 @@ public class CustomThread {
             return this.threadGroup;
         }
 
+        /**
+         * Specify the thread group that threads should be created in.
+         *
+         * @see #setThreadGroupName
+         */
+        public void setThreadGroup(@Nullable ThreadGroup threadGroup) {
+            this.threadGroup = threadGroup;
+        }
 
         /**
          * Template method for the creation of a new {@link Thread}.

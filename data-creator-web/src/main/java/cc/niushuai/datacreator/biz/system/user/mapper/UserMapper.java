@@ -18,7 +18,6 @@ package cc.niushuai.datacreator.biz.system.user.mapper;
 
 import cc.niushuai.datacreator.base.mapper.BaseMapper;
 import cc.niushuai.datacreator.biz.system.user.entity.User;
-import org.apache.ibatis.annotations.Param;
 
 /**
  * 用户数据库操作层
