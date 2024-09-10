@@ -16,12 +16,13 @@
 
 package cc.niushuai.datacreator.common.util;
 
-import cc.niushuai.datacreator.common.enums.ErrorCodeEnum;
 import cc.niushuai.datacreator.common.exception.BizException;
-import cn.hutool.core.util.StrUtil;
 import com.alibaba.ttl.TransmittableThreadLocal;
-import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.util.Assert;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * thread local context
@@ -31,64 +32,49 @@ import lombok.extern.slf4j.Slf4j;
  * @since 0.0.1
  */
 @Slf4j
-public class TTLContext {
+public class TtlContext {
 
-    private static final TransmittableThreadLocal<Context> CONTEXT = new TransmittableThreadLocal();
+    private static final TransmittableThreadLocal<Context> context = new TransmittableThreadLocal();
 
-
-    public static void set(Context context) {
-        CONTEXT.set(context);
+    public static void remove() {
+        if (null != context.get()) {
+            context.remove();
+            return;
+        }
+        log.warn("ttl context is null ==> {}", ExceptionUtil.getPrintStackTraceInfo());
+        context.remove();
     }
 
-    public static Context get() {
-        Context context = CONTEXT.get();
-        if (null == context) {
-            throw new BizException(ErrorCodeEnum.TTL_CONTENT_NOT_FOUND, ExceptionUtil.getPrintStackTraceInfo());
+    private static void test() {
+        try {
+            Assert.notNull(context, "context is null");
+        } catch (Exception e) {
+            throw new BizException(e.getMessage());
         }
-        return context;
     }
 
-
-    public static Context nullableGet() {
-        Context context = CONTEXT.get();
-        if (null == context) {
-            return null;
+    public static void set(String key, Object value) {
+        if (null == context.get()) {
+            context.set(new Context());
         }
-        return context;
+
+        context.get().extraMap.put(key, value);
+    }
+
+    private static Object get(String key) {
+        test();
+        return context.get().extraMap.get(key);
+    }
+
+    private static Object nullableGet(String key) {
+        return context.get();
     }
 
     public static String nullableGetTraceId() {
-        Context context = nullableGet();
-        return null == context ? null : context.getTraceId();
+        return null == context.get() ? Constants.DEFAULT : context.get().extraMap.get(Constants.TRACE_ID).toString();
     }
 
-    public static String nullableGetTraceId(String defaultId) {
-        return StrUtil.nullToDefault(nullableGetTraceId(), defaultId);
+    static class Context {
+        private Map<String, Object> extraMap = new HashMap<String, Object>(2);
     }
-
-    public static void remove() {
-        if (null != CONTEXT.get()) {
-            CONTEXT.remove();
-            return;
-        }
-        CONTEXT.remove();
-        log.warn("ttl context is null ==> {}", ExceptionUtil.getPrintStackTraceInfo());
-    }
-
-    @Data
-    public static class Context {
-
-        // token
-        private String token;
-
-        // 用户信息
-        private String userId;
-        private String username;
-
-        // 追踪问题使用
-        private String traceId;
-        private String spanId;
-
-    }
-
 }

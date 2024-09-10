@@ -16,6 +16,8 @@
 
 package cc.niushuai.datacreator.config;
 
+import cc.niushuai.datacreator.config.interceptor.AddTraceIdResponseInterceptor;
+import cc.niushuai.datacreator.config.interceptor.TtlContextParserInterceptor;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import org.slf4j.Logger;
@@ -26,6 +28,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -76,6 +79,18 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
         log.info("add CorsMapping for /** with method GET and POST");
     }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        // add trace id
+        registry.addInterceptor(new AddTraceIdResponseInterceptor())
+                .addPathPatterns("/**");
+
+        // parse context
+        registry.addInterceptor(new TtlContextParserInterceptor())
+                .addPathPatterns("/**");
+    }
+
 
     /**
      * jackson配置
