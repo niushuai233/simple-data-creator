@@ -16,7 +16,11 @@
 package cc.niushuai.datacreator.biz.system.user.entity;
 
 import cc.niushuai.datacreator.base.entity.BaseEntity;
+import cc.niushuai.datacreator.common.valid.CreateValid;
+import cc.niushuai.datacreator.common.valid.UpdateValid;
+import com.fasterxml.jackson.annotation.JsonView;
 import com.mybatisflex.annotation.Table;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -32,7 +36,12 @@ import lombok.EqualsAndHashCode;
 @Table("sys_user")
 public class User extends BaseEntity {
 
+    @NotBlank(message = "用户名不能为空")
+    @JsonView({CreateValid.class, UpdateValid.class})
     private String username;
+    @NotBlank(message = "密码不能给空")
+    @JsonView({CreateValid.class})
     private String password;
+    @JsonView({CreateValid.class, UpdateValid.class})
     private Integer status;
 }

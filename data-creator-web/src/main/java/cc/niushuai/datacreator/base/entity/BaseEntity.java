@@ -15,7 +15,9 @@
 
 package cc.niushuai.datacreator.base.entity;
 
+import cc.niushuai.datacreator.common.valid.UpdateValid;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonView;
 import com.mybatisflex.annotation.Column;
 import com.mybatisflex.annotation.Id;
 import com.mybatisflex.annotation.KeyType;
@@ -38,6 +40,7 @@ public class BaseEntity {
      * 主键id 数据库自增
      */
     @Id(keyType = KeyType.Auto)
+    @JsonView({UpdateValid.class})
     private Long id;
 
     /**
