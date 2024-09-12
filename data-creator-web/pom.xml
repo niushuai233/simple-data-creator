@@ -109,6 +109,15 @@
             <artifactId>transmittable-thread-local</artifactId>
         </dependency>
 
+        <!--
+        解决编译警告问题
+        警告:java:未知枚举常量javax.annotation.meta.When.MAYBE原因:未找到javax.annotation.meta.When的类文件
+        -->
+        <dependency>
+            <groupId>com.github.spotbugs</groupId>
+            <artifactId>spotbugs-annotations</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>

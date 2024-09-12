@@ -34,7 +34,7 @@ import java.util.Map;
 @Slf4j
 public class TtlContext {
 
-    private static final TransmittableThreadLocal<Context> context = new TransmittableThreadLocal();
+    private static final TransmittableThreadLocal<Context> context = new TransmittableThreadLocal<>();
 
     public static void remove() {
         if (null != context.get()) {

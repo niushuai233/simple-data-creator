@@ -42,6 +42,7 @@ import java.util.List;
  * @date 2024/09/03 17:29
  * @since 0.0.1
  */
+@SuppressWarnings("unchecked")
 public class BaseController<Service extends BaseService, Entity> {
 
     public static final String DEFAULT_PAGE_NO = "1";
@@ -78,7 +79,7 @@ public class BaseController<Service extends BaseService, Entity> {
 
         QueryWrapper queryWrapper = QueryWrapperAdapter.create(entity);
 
-        Page<Entity> page = service.page(Page.of(pageNumber, pageSize), queryWrapper);
+        Page<Entity> page = service.page(new Page<Entity>(pageNumber, pageSize), queryWrapper);
 
         return R.success(page);
     }
