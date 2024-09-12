@@ -128,7 +128,7 @@ public class BaseController<Service extends BaseService, Entity> {
      */
     @PostMapping("/save")
     public R save(@JsonView(CreateValid.class) @RequestBody Entity entity) {
-
+        service.save(entity);
         return R.success(entity);
     }
 
@@ -143,7 +143,7 @@ public class BaseController<Service extends BaseService, Entity> {
      */
     @PostMapping("/update")
     public R update(@JsonView(UpdateValid.class) @RequestBody Entity entity) {
-
+        service.updateById(entity);
         return R.success(entity);
     }
 
