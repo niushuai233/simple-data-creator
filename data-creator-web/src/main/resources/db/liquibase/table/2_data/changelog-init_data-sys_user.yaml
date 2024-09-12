@@ -1,0 +1,54 @@
+databaseChangeLog:
+  - changeSet:
+      id: init_sys_user
+      author: niushuai233
+      comment: 初始化系统用户表数据
+      # 每次启动都执行
+      alwaysRun: false
+      # 比较md5 改变时执行
+      runOnChange: true
+      # 忽略这条规则
+      ignore: false
+      # 生效的db
+      dbmsSet:
+        - h2
+        - mariadb
+        - mysql
+        - postgresql
+        - mssql
+        - oracle
+      # 执行失败是否不继续执行
+      failOnError: true
+      # 具体细则 liquibase.change.Change 的子类
+      changes:
+        insert:
+          tableName: sys_user
+          columns:
+            - column:
+                name: id
+                value: 0
+            - column:
+                name: username
+                value: admin
+            - column:
+                name: password
+                value: '$2a$10$nLkUYIpkNXGZYqe5Qn/XTOoeJtYmAPFeCtuoUqW3gGQdD.Fk.msFu'
+            - column:
+                name: salt
+                value: '$2a$10$nLkUYIpkNXGZYqe5Qn/XTO'
+            - column:
+                name: status
+                value: 1
+            - column:
+                name: deleted
+                value: 0
+            - column:
+                name: create_by
+                value: admin
+            - column:
+                name: create_time
+                value: now()
+
+
+
+

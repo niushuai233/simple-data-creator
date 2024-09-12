@@ -12,6 +12,11 @@ databaseChangeLog:
       # 生效的db
       dbmsSet:
         - h2
+        - mariadb
+        - mysql
+        - postgresql
+        - mssql
+        - oracle
       # 执行失败是否不继续执行
       failOnError: true
       # 具体细则 liquibase.change.Change 的子类
@@ -37,7 +42,7 @@ databaseChangeLog:
                 remarks: '用户名'
             - column:
                 name: password
-                type: ${generalStr}
+                type: ${longerStr}
                 constraints:
                   # 不允许为空
                   nullable: false
@@ -86,31 +91,4 @@ databaseChangeLog:
                 type: timestamp
                 # 备注
                 remarks: '更新时间'
-        insert:
-          tableName: sys_user
-          columns:
-            - column:
-                name: id
-                value: 0
-            - column:
-                name: username
-                value: admin
-            - column:
-                name: password
-                value: admin
-            - column:
-                name: status
-                value: 1
-            - column:
-                name: deleted
-                value: 0
-            - column:
-                name: create_by
-                value: admin
-            - column:
-                name: create_time
-                value: now()
-
-
-
 
