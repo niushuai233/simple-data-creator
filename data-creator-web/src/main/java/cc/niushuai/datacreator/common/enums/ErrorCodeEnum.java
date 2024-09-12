@@ -1,5 +1,6 @@
 /*
- * Copyright (C) 2019-2024 niushuai233 niushuai.cc
+ * Copyright (C) 2024 niushuai233 niushuai.cc
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -24,53 +25,19 @@ package cc.niushuai.datacreator.common.enums;
  */
 public enum ErrorCodeEnum {
 
-    /**
-     * 登陆失效
-     */
-    NotLogin(40001, "登录已失效, 请重新登陆"),
-
-    /**
-     * 请求方式不匹配
-     */
-    HttpMethodNotAllowed(40005, "请求方式不匹配"),
-
-    /**
-     * 未授权操作
-     */
-    TokenUnauthorized(41001, "未授权操作: {}"),
-
-    /**
-     * 请求方式不匹配
-     */
     InterServerException(50000, "未知异常: {}"),
-
-
-    /**
-     * 必填参数缺失
-     */
-    RequestParameterError(53001, "必填参数缺失"),
-
-    /**
-     * 非法参数
-     */
-    IllegalArgument(53000, "非法参数"),
-
-
-    /**
-     * ttl上下文处理异常
-     */
+    AUTH_NotLogin(40001, "登录已失效, 请重新登陆"),
+    AUTH_TokenUnauthorized(41001, "未授权操作: {}"),
+    WEB_HttpMethodNotAllowed(40005, "请求方式不匹配"),
+    WEB_RequestParameterError(53001, "必填参数缺失: {}"),
+    WEB_IllegalArgument(53000, "非法参数: {}"),
+    WEB_VALID_EXCEPTION(53003, "必填参数校验失败: {}"),
     TTL_CONTENT_NOT_FOUND(53010, "TTL上下文异常: {}"),
-
-    /**
-     * 未知satoken异常
-     */
-    TokenUnknownEx(53020, "未知ST异常: {}"),
-
-    /**
-     * 数据库操作失败
-     */
-    SqlException(55000, "数据库操作失败"),
-
+    ST_TokenUnknownEx(53020, "未知ST异常: {}"),
+    DB_SqlException(55000, "数据库操作失败: {}"),
+    DB_DuplicateKey(55003, "主键重复: {}"),
+    DB_MybatisFlexException1(55001, "MybatisFlexException: {}"),
+    DB_MybatisFlexException2(55002, "ORM Failed: {}"),
 
     DEFAULT(99999, "default"),
     ;

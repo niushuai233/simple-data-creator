@@ -71,7 +71,7 @@ public class TtlContext {
     }
 
     public static String nullableGetTraceId() {
-        return null == context.get() ? Constants.DEFAULT : context.get().extraMap.get(Constants.TRACE_ID).toString();
+        return null == context.get() ? Constants.DEFAULT : context.get().extraMap.get(Constants.TRACE_ID) + "";
     }
 
     static class Context {

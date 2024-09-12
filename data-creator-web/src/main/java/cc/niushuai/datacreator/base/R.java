@@ -1,5 +1,6 @@
 /*
- * Copyright (C) 2019-2024 niushuai233 niushuai.cc
+ * Copyright (C) 2024 niushuai233 niushuai.cc
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -79,12 +80,8 @@ public class R<T> implements Serializable {
         return error(errorCodeEnum, "");
     }
 
-    public static R error(ErrorCodeEnum errorCodeEnum, String extraMessage) {
-        String msg = errorCodeEnum.getMessage();
-        if (StrUtil.isNotEmpty(extraMessage)) {
-            msg = msg + ": " + extraMessage;
-        }
-        return error(errorCodeEnum.getCode(), msg);
+    public static R error(ErrorCodeEnum errorCodeEnum, Object... params) {
+        return error(errorCodeEnum.getCode(), StrUtil.format(errorCodeEnum.getMessage(), params));
     }
 
     public static R error(BizException bizException) {
