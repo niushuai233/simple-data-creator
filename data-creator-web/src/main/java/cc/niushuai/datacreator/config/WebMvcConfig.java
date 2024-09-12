@@ -19,13 +19,17 @@ import cc.niushuai.datacreator.config.interceptor.AddTraceIdResponseInterceptor;
 import cc.niushuai.datacreator.config.interceptor.TtlContextParserInterceptor;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
+import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -81,6 +85,19 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
+
+        // 忽略favicon.ico请求
+        registry.addInterceptor(new HandlerInterceptor() {
+            @Override
+            public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
+                if ("GET".equalsIgnoreCase(request.getMethod()) && request.getRequestURI().toString().equals("/favicon.ico")) {
+                    // 204 NO_CONTENT
+                    response.setStatus(HttpStatus.NO_CONTENT.value());
+                    return false;
+                }
+                return true;
+            }
+        }).addPathPatterns("/**");
 
         // parse context
         registry.addInterceptor(new TtlContextParserInterceptor())
