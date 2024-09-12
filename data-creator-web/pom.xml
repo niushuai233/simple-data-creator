@@ -91,10 +91,22 @@
             <scope>runtime</scope>
         </dependency>
 
+        <!-- Sa-Token 权限认证，在线文档：https://sa-token.cc -->
+        <dependency>
+            <groupId>cn.dev33</groupId>
+            <artifactId>sa-token-spring-boot3-starter</artifactId>
+        </dependency>
+
         <!--liquibase-->
         <dependency>
             <groupId>org.liquibase</groupId>
             <artifactId>liquibase-core</artifactId>
+        </dependency>
+
+        <!--本地缓存组件-->
+        <dependency>
+            <groupId>com.github.ben-manes.caffeine</groupId>
+            <artifactId>caffeine</artifactId>
         </dependency>
 
         <!--hutool工具类-->
