@@ -41,9 +41,6 @@ public class User extends BaseEntity {
     @JsonView({CreateValid.class, UpdateValid.class})
     private String username;
 
-    @JsonIgnore
-    private String salt;
-
     @NotBlank(message = "密码不能给空")
     @JsonView({CreateValid.class})
     private String password;
