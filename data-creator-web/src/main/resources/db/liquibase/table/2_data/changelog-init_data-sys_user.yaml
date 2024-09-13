@@ -34,9 +34,6 @@ databaseChangeLog:
                 name: password
                 value: '$2a$10$nLkUYIpkNXGZYqe5Qn/XTOoeJtYmAPFeCtuoUqW3gGQdD.Fk.msFu'
             - column:
-                name: salt
-                value: '$2a$10$nLkUYIpkNXGZYqe5Qn/XTO'
-            - column:
                 name: status
                 value: 1
             - column:
