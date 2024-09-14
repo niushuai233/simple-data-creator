@@ -12,11 +12,7 @@ databaseChangeLog:
       # 生效的db
       dbmsSet:
         - h2
-        - mariadb
         - mysql
-        - postgresql
-        - mssql
-        - oracle
       # 执行失败是否不继续执行
       failOnError: true
       # 具体细则 liquibase.change.Change 的子类
