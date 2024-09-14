@@ -24,9 +24,11 @@ import com.fasterxml.jackson.annotation.JsonView;
 import com.mybatisflex.core.paginate.Page;
 import com.mybatisflex.core.query.QueryWrapper;
 import com.mybatisflex.core.query.QueryWrapperAdapter;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -42,6 +44,7 @@ import java.util.List;
  * @date 2024/09/03 17:29
  * @since 0.0.1
  */
+@Validated
 @SuppressWarnings("unchecked")
 public class BaseController<Service extends BaseService, Entity> {
 
@@ -127,7 +130,7 @@ public class BaseController<Service extends BaseService, Entity> {
      * @since 0.0.1
      */
     @PostMapping("/save")
-    public R save(@JsonView(CreateValid.class) @RequestBody Entity entity) {
+    public R save(@Valid @JsonView(CreateValid.class) @RequestBody Entity entity) {
         service.save(entity);
         return R.success(entity);
     }
@@ -142,7 +145,7 @@ public class BaseController<Service extends BaseService, Entity> {
      * @since 0.0.1
      */
     @PostMapping("/update")
-    public R update(@JsonView(UpdateValid.class) @RequestBody Entity entity) {
+    public R update(@Validated(UpdateValid.class) @JsonView(UpdateValid.class) @RequestBody Entity entity) {
         service.updateById(entity);
         return R.success(entity);
     }

@@ -19,6 +19,7 @@ package cc.niushuai.datacreator.common.exception;
 
 import cc.niushuai.datacreator.base.R;
 import cc.niushuai.datacreator.common.enums.ErrorCodeEnum;
+import cn.dev33.satoken.exception.NotLoginException;
 import cn.hutool.core.text.StrPool;
 import cn.hutool.core.util.StrUtil;
 import com.mybatisflex.core.exception.MybatisFlexException;
@@ -93,6 +94,21 @@ public class GlobalExceptionHandler {
     public R bizException(BizException exception) {
         log.error(exception.getMessage(), exception);
         return R.error(exception.getCode(), exception.getMessage());
+    }
+
+    /**
+     * satoken checklogin throw
+     *
+     * @param notLoginException
+     * @return
+     * @author niushuai233
+     * @date 2024/09/13 9:59
+     * @since 0.0.1
+     */
+    @ExceptionHandler(NotLoginException.class)
+    public R notLoginException(NotLoginException notLoginException) {
+        log.error(notLoginException.getMessage(), notLoginException);
+        return R.error(ErrorCodeEnum.AUTH_NotLogin);
     }
 
     /**

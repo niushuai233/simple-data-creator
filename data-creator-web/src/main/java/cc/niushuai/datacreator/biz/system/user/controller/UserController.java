@@ -15,11 +15,20 @@
 
 package cc.niushuai.datacreator.biz.system.user.controller;
 
+import cc.niushuai.datacreator.base.R;
 import cc.niushuai.datacreator.base.controller.BaseController;
 import cc.niushuai.datacreator.biz.system.user.entity.User;
 import cc.niushuai.datacreator.biz.system.user.service.UserService;
+import cc.niushuai.datacreator.common.enums.ErrorCodeEnum;
+import cc.niushuai.datacreator.common.exception.BizException;
+import cc.niushuai.datacreator.common.util.AssertUtil;
+import cc.niushuai.datacreator.common.valid.CreateValid;
+import cn.hutool.crypto.digest.BCrypt;
+import com.fasterxml.jackson.annotation.JsonView;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -31,9 +40,19 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 0.0.1
  */
 @Slf4j
-@Validated
 @RestController
 @RequestMapping("/system/user")
 public class UserController extends BaseController<UserService, User> {
 
+    @PostMapping("/save")
+    public R save(@Validated({CreateValid.class}) @JsonView(CreateValid.class) @RequestBody User user) {
+
+        AssertUtil.isTrue(user.getPassword().equals(user.getRePassword()), new BizException(ErrorCodeEnum.AUTH_RePasswordMismatch));
+
+        // 加工密码
+        String hashPass = BCrypt.hashpw(user.getPassword());
+        user.setPassword(hashPass);
+
+        return super.save(user);
+    }
 }

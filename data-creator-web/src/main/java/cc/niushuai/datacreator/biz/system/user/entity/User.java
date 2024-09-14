@@ -20,6 +20,7 @@ import cc.niushuai.datacreator.common.valid.CreateValid;
 import cc.niushuai.datacreator.common.valid.UpdateValid;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
+import com.mybatisflex.annotation.Column;
 import com.mybatisflex.annotation.Table;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
@@ -37,14 +38,19 @@ import lombok.EqualsAndHashCode;
 @Table("sys_user")
 public class User extends BaseEntity {
 
-    @NotBlank(message = "用户名不能为空")
+    @NotBlank(message = "用户名不能为空", groups = {CreateValid.class})
     @JsonView({CreateValid.class, UpdateValid.class})
     private String username;
 
-    @NotBlank(message = "密码不能给空")
+    @NotBlank(message = "密码不能为空", groups = {CreateValid.class})
     @JsonView({CreateValid.class})
     private String password;
 
-    @JsonView({CreateValid.class, UpdateValid.class})
+    @NotBlank(message = "重复密码不能为空", groups = {CreateValid.class})
+    @JsonView(CreateValid.class)
+    @Column(ignore = true)
+    private String rePassword;
+
+    @JsonView(CreateValid.class)
     private Integer status;
 }

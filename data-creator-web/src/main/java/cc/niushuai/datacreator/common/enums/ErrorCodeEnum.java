@@ -27,6 +27,8 @@ public enum ErrorCodeEnum {
 
     InterServerException(50000, "未知异常: {}"),
     AUTH_NotLogin(40001, "登录已失效, 请重新登陆"),
+    AUTH_LoginError(40101, "用户名密码错误"),
+    AUTH_RePasswordMismatch(40102, "两次密码输入不一致"),
     AUTH_TokenUnauthorized(41001, "未授权操作: {}"),
     WEB_HttpMethodNotAllowed(40005, "请求方式不匹配"),
     WEB_RequestParameterError(53001, "必填参数缺失: {}"),
