@@ -35,6 +35,9 @@ databaseChangeLog:
                 constraints:
                   # 不允许为空
                   nullable: false
+                  # 唯一
+                  unique: true
+                  uniqueConstraintName: uni_user_username
                 remarks: '用户名'
             - column:
                 name: password
