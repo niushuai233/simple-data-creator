@@ -132,7 +132,7 @@ public class BaseController<Service extends BaseService, Entity> {
     @PostMapping("/save")
     public R save(@Valid @JsonView(CreateValid.class) @RequestBody Entity entity) {
         service.save(entity);
-        return R.success(entity);
+        return R.success();
     }
 
     /**

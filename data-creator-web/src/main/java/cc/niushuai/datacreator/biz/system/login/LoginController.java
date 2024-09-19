@@ -26,6 +26,7 @@ import cc.niushuai.datacreator.common.valid.extra.Valid1;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.crypto.digest.BCrypt;
 import com.fasterxml.jackson.annotation.JsonView;
+import com.mybatisflex.core.mask.MaskManager;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -62,12 +63,13 @@ public class LoginController {
     @PostMapping("/login")
     public R login(@JsonView(Valid1.class) @RequestBody LoginVO login) {
 
-        User user = userService.queryChain()
+
+        User user = MaskManager.execWithoutMask(() -> userService.queryChain()
                 .eq(User::getUsername, login.getUsername())
                 .oneOpt()
                 .stream()
                 .findFirst()
-                .orElseThrow(() -> new BizException(ErrorCodeEnum.AUTH_LoginError));
+                .orElseThrow(() -> new BizException(ErrorCodeEnum.AUTH_LoginError)));
 
         if (BCrypt.checkpw(login.getPassword(), user.getPassword())) {
 
