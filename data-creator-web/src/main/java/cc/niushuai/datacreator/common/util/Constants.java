@@ -27,4 +27,8 @@ public interface Constants {
     String DEFAULT = "default";
     String TOKEN = "token";
     String TRACE_ID = "traceId";
+    String CreateBy = "createBy";
+    String CreateTime = "createTime";
+    String UpdateBy = "updateBy";
+    String UpdateTime = "updateTime";
 }

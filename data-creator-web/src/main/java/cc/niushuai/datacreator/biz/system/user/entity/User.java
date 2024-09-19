@@ -18,10 +18,13 @@ package cc.niushuai.datacreator.biz.system.user.entity;
 import cc.niushuai.datacreator.base.entity.BaseEntity;
 import cc.niushuai.datacreator.common.valid.CreateValid;
 import cc.niushuai.datacreator.common.valid.UpdateValid;
+import cc.niushuai.datacreator.config.mybatisflex.listener.BaseEntityOnOptListener;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.mybatisflex.annotation.Column;
+import com.mybatisflex.annotation.ColumnMask;
 import com.mybatisflex.annotation.Table;
+import com.mybatisflex.core.mask.Masks;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -35,7 +38,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@Table("sys_user")
+@Table(value = "sys_user", onInsert = BaseEntityOnOptListener.class, onUpdate = BaseEntityOnOptListener.class)
 public class User extends BaseEntity {
 
     @NotBlank(message = "用户名不能为空", groups = {CreateValid.class})
@@ -44,6 +47,7 @@ public class User extends BaseEntity {
 
     @NotBlank(message = "密码不能为空", groups = {CreateValid.class})
     @JsonView({CreateValid.class})
+    @ColumnMask(Masks.PASSWORD)
     private String password;
 
     @NotBlank(message = "重复密码不能为空", groups = {CreateValid.class})
