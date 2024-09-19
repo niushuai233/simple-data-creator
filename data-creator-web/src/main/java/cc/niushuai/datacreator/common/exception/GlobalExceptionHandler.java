@@ -20,12 +20,14 @@ package cc.niushuai.datacreator.common.exception;
 import cc.niushuai.datacreator.base.R;
 import cc.niushuai.datacreator.common.enums.ErrorCodeEnum;
 import cn.dev33.satoken.exception.NotLoginException;
+import cn.dev33.satoken.exception.SaTokenException;
 import cn.hutool.core.text.StrPool;
 import cn.hutool.core.util.StrUtil;
 import com.mybatisflex.core.exception.MybatisFlexException;
 import jakarta.annotation.PostConstruct;
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.builder.BuilderException;
 import org.mybatis.spring.MyBatisSystemException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.BadSqlGrammarException;
@@ -222,6 +224,14 @@ public class GlobalExceptionHandler {
             if (null == tmp) {
                 if (throwable instanceof MybatisFlexException) {
                     return new BizException(ErrorCodeEnum.DB_MybatisFlexException2, throwable.getMessage());
+                }
+
+                if (throwable instanceof BuilderException) {
+                    return new BizException(ErrorCodeEnum.DB_MybatisFlexException3, throwable.getMessage());
+                }
+
+                if (throwable instanceof SaTokenException) {
+                    return new BizException(ErrorCodeEnum.DB_SaTokenException, throwable.getMessage());
                 }
             }
 

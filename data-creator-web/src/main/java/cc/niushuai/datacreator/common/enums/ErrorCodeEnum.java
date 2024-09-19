@@ -40,9 +40,10 @@ public enum ErrorCodeEnum {
     DB_DuplicateKey(55003, "主键重复: {}"),
     DB_MybatisFlexException1(55001, "MybatisFlexException: {}"),
     DB_MybatisFlexException2(55002, "ORM Failed: {}"),
+    DB_MybatisFlexException3(55003, "ORM Deep Failed: {}"),
+    DB_SaTokenException(55004, "ORM Failed By SaToken: {}"),
 
-    DEFAULT(99999, "default"),
-    ;
+    DEFAULT(99999, "default");
 
     private Integer code;
     private String message;
