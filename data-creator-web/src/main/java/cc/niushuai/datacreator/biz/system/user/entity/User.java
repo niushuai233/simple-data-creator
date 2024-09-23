@@ -18,6 +18,7 @@ package cc.niushuai.datacreator.biz.system.user.entity;
 import cc.niushuai.datacreator.base.entity.BaseEntity;
 import cc.niushuai.datacreator.common.valid.CreateValid;
 import cc.niushuai.datacreator.common.valid.UpdateValid;
+import cc.niushuai.datacreator.config.masks.MaskType;
 import cc.niushuai.datacreator.config.mybatisflex.listener.BaseEntityOnOptListener;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
@@ -47,7 +48,7 @@ public class User extends BaseEntity {
 
     @NotBlank(message = "密码不能为空", groups = {CreateValid.class})
     @JsonView({CreateValid.class})
-    @ColumnMask(Masks.PASSWORD)
+    @ColumnMask(MaskType.PASSWORD_X)
     private String password;
 
     @NotBlank(message = "重复密码不能为空", groups = {CreateValid.class})

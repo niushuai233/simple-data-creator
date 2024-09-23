@@ -43,6 +43,8 @@ public enum ErrorCodeEnum {
     DB_MybatisFlexException3(55003, "ORM Deep Failed: {}"),
     DB_SaTokenException(55004, "ORM Failed By SaToken: {}"),
 
+    BIZ_SYSTEM_MASK_CLASS_TYPE_NOT_STRING(71001, "password_x脱敏要求字段为String类型"),
+
     DEFAULT(99999, "default");
 
     private Integer code;
