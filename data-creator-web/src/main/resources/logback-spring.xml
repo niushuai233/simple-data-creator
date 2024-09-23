@@ -31,7 +31,7 @@
     <!--默认编码-->
     <property name="charsetEncoding" value="UTF-8"/>
 
-    <!--<statusListener class="ch.qos.logback.core.status.NopStatusListener" />-->
+    <statusListener class="ch.qos.logback.core.status.NopStatusListener" />
 
     <!--控制台输出 带颜色控制符-->
     <property name="consolePattern"
