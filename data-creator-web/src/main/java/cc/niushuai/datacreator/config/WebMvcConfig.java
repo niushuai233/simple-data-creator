@@ -15,8 +15,17 @@
 
 package cc.niushuai.datacreator.config;
 
+import cc.niushuai.datacreator.common.enums.ErrorCodeEnum;
+import cc.niushuai.datacreator.common.exception.BizException;
 import cc.niushuai.datacreator.config.interceptor.AddTraceIdResponseInterceptor;
 import cc.niushuai.datacreator.config.interceptor.TtlContextParserInterceptor;
+import cn.dev33.satoken.exception.NotLoginException;
+import cn.dev33.satoken.exception.NotPermissionException;
+import cn.dev33.satoken.exception.NotRoleException;
+import cn.dev33.satoken.exception.SaTokenException;
+import cn.dev33.satoken.interceptor.SaInterceptor;
+import cn.dev33.satoken.router.SaRouter;
+import cn.dev33.satoken.stp.StpUtil;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import jakarta.servlet.http.HttpServletRequest;
@@ -85,6 +94,36 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
+
+        // 添加登陆是否登陆拦截器
+        registry.addInterceptor(new SaInterceptor(param -> {
+                    boolean clear = true;
+                    try {
+                        // 校验是否登陆
+                        StpUtil.checkLogin();
+                        // 均校验通过 置flag为false 表示不清除登陆信息
+                        clear = false;
+                    } catch (NotLoginException notLoginException) {
+                        log.error("checkLogin NotLoginException {}", notLoginException.getMessage());
+                        throw new BizException(ErrorCodeEnum.AUTH_NotLogin);
+//                    } catch (NotRoleException | NotPermissionException e) {
+////                         可能需要搭配 StpUtil.checkPermission('permission')使用
+//                        log.error("checkLogin NotRoleException | NotPermissionException {}", e.getMessage(), e);
+//                        throw new BizException(ErrorCodeEnum.AUTH_TokenUnauthorized, e.getMessage());
+                    } catch (SaTokenException saTokenException) {
+                        log.error("checkLogin SaTokenException {}", saTokenException.getMessage());
+                        throw new BizException(ErrorCodeEnum.ST_TokenUnknownEx, saTokenException.getMessage());
+                    } catch (Exception e) {
+                        log.error("checkLogin Exception {}", e.getMessage());
+                        throw new BizException(ErrorCodeEnum.InterServerException, e.getMessage());
+                    } finally {
+                        if (clear) {
+                            StpUtil.logout();
+                        }
+                    }
+                }))
+                .addPathPatterns("/**")
+                .excludePathPatterns("/system/login");
 
         // 忽略favicon.ico请求
         registry.addInterceptor(new HandlerInterceptor() {
